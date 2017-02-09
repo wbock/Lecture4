@@ -2,7 +2,7 @@ import processing.serial.*;
 
 Serial myPort;
 
-int fillValue = 0;
+float fillValue = 0.0f;
 
 void setup() {
   size(800, 600);
@@ -13,16 +13,15 @@ void setup() {
 
 void  draw() {
   fill(fillValue);
-  ellipse(width/2, height/2, width/4, height/4);
+  ellipse(width/2, height/2, width/2, height/2);
 }
 
 void serialEvent (Serial myPort) {
   String inString = myPort.readStringUntil('\n');
   inString = trim(inString);
   println(inString);
-  
-  Float temp = Float.parseFloat(inString);
-  fillValue = (int) (255 * temp / 1024);
+
+  fillValue = (255 * Float.parseFloat(inString) / 1024);
   
   if (mousePressed) {
     myPort.write(8);
